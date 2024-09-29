@@ -7,6 +7,11 @@
   pointer-events: none;
 }
 
+
+.bg-original {
+  background: linear-gradient(141.55deg, #145388 3.46%, #145388 99.86%), #145388 !important;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

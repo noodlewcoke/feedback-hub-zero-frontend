@@ -13,7 +13,7 @@ import NavBar from "./NavBar";
 import io from "socket.io-client";
 import { TicketConfirmation } from "./components/SubmitMessages";
 
-const SOCKET_ID = "http://localhost:5000";
+const SOCKET_ID = "https://feedback-hub-zero-backend.onrender.com";
 
 function App() {
   const [name, setName] = useState("isouzd");

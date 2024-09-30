@@ -6,16 +6,19 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TicketStatus from "./ticketStatus";
 import SearchTicket from "./searchTicket";
+import { TicketController } from "./contextProviders";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/status" element={<TicketStatus />} />
-        <Route path="/search" element={<SearchTicket />} />
-      </Routes>
+      <TicketController>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/status" element={<TicketStatus />} />
+          <Route path="/search" element={<SearchTicket />} />
+        </Routes>
+      </TicketController>
     </BrowserRouter>
   </React.StrictMode>
 );

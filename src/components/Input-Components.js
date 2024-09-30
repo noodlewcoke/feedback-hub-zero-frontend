@@ -13,7 +13,7 @@ export function TextInput({ labelName, placeHolder, inputSetVariable }) {
           type="text"
           placeholder={placeHolder}
           className="input input-bordered input-md w-full  h-10"
-          required
+          required={true}
           onChange={(e) => {
             inputSetVariable(e.target.value);
           }}
@@ -22,7 +22,6 @@ export function TextInput({ labelName, placeHolder, inputSetVariable }) {
     </div>
   );
 }
-
 
 export function TextInputSearch({ labelName, placeHolder, inputSetVariable }) {
   return (
@@ -35,6 +34,7 @@ export function TextInputSearch({ labelName, placeHolder, inputSetVariable }) {
         </div>
         <input
           type="text"
+          required={true}
           placeholder={placeHolder}
           className="input input-bordered input-md w-full  h-10"
           onChange={(e) => {
@@ -46,7 +46,12 @@ export function TextInputSearch({ labelName, placeHolder, inputSetVariable }) {
   );
 }
 
-export function TextLargeInput({ labelName, placeHolder, inputSetVariable, wFull }) {
+export function TextLargeInput({
+  labelName,
+  placeHolder,
+  inputSetVariable,
+  wFull,
+}) {
   return (
     <div className="flex w-full px-2">
       <label className="form-control w-full">
@@ -57,7 +62,9 @@ export function TextLargeInput({ labelName, placeHolder, inputSetVariable, wFull
         </div>
         <textarea
           placeholder={placeHolder}
-          className={`textarea textarea-bordered input-md w-full ${wFull ? "h-40" : "h-20"} `}
+          className={`textarea textarea-bordered input-md w-full ${
+            wFull ? "h-40" : "h-20"
+          } `}
           onChange={(e) => {
             inputSetVariable(e.target.value);
           }}
@@ -67,7 +74,32 @@ export function TextLargeInput({ labelName, placeHolder, inputSetVariable, wFull
   );
 }
 
-export function FileInput({inputSetVariable}) {
+export function SelectInput({
+  labelName,
+  placeHolder,
+  inputSetVariable,
+  options,
+}) {
+  return (
+    <div className="flex md:flex-auto md:flex-grow-0 md:flex-shrink-0 md:w-1/2 w-full px-2">
+      <label className="form-control w-full">
+        <div className="label">
+          <span className="label-text text-base font-semibold">
+            {labelName}
+          </span>
+        </div>
+        <select required className="select select-bordered select-md w-full" onChange={(e) => {inputSetVariable(e.target.value);}}>
+          <option disabled selected>Select {placeHolder}</option>
+          {options.map((option, index) => (
+            <option key={option+"132"} value={index+1}>{option}</option>
+          )) }
+        </select>
+      </label>
+    </div>
+  );
+}
+
+export function FileInput({ inputSetVariable }) {
   return (
     <div className="flex md:flex-auto md:flex-grow-0 md:flex-shrink-0 md:w-1/2 w-full px-2">
       <label className="form-control w-full max-w-xs">
@@ -80,7 +112,6 @@ export function FileInput({inputSetVariable}) {
           className="file-input file-input-bordered file-input-md w-full max-w-xs "
           onChange={(e) => {
             inputSetVariable(e.target.files);
-
           }}
         />
       </label>
@@ -108,7 +139,7 @@ export const CustomFileInput = () => {
         className="hidden"
         onChange={handleFileChange}
       />
-      
+
       {/* Custom label styled as a button */}
       <label
         htmlFor="fileInput"
@@ -116,7 +147,7 @@ export const CustomFileInput = () => {
       >
         Choose File
       </label>
-      
+
       {/* Display the selected file name */}
       <p className="mt-2 text-gray-600">{fileName}</p>
     </div>

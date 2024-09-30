@@ -5,86 +5,101 @@ import {
   FileInput,
   TextInput,
   TextLargeInput,
+  SelectInput,
 } from "./components/Input-Components";
 import { SplitScreenBackground } from "./components/Background";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
-import io from "socket.io-client";
+import { categories, servers } from "./entries";
 import { TicketConfirmation } from "./components/SubmitMessages";
+import { TicketContext } from "./contextProviders";
 
-// const SOCKET_ID = "https://feedback-hub-zero-backend.onrender.com";
 const SOCKET_ID = process.env.REACT_APP_API_URL;
 
 function App() {
-  const [name, setName] = useState("isouzd");
-  const [email, setEmail] = useState("isouzd@gmail.com");
-  const [category, setCategory] = useState("cat");
-  const [server, setServer] = useState("ser");
-  const [characterName, setCharacterName] = useState("char");
-  const [subject, setSubject] = useState("sub");
-  const [description, setDescription] = useState("desc");
-  const [files, setFiles] = useState([]);
+  const {
+    ticketNumber,
+    setTicketNumber,
+    name,
+    setName,
+    email,
+    setEmail,
+    category,
+    setCategory,
+    server,
+    setServer,
+    characterName,
+    setCharacterName,
+    subject,
+    setSubject,
+    description,
+    setDescription,
+    files,
+    setFiles,
+    setTicketStatus,
+  } = useContext(TicketContext);
 
-  const [ticketId, setTicketId] = useState(null);
+  useEffect(() => {
+    setTicketNumber(null)
+    setName("")
+    setEmail("")
+    setCategory(null)
+    setServer(null)
+    setCharacterName("")
+    setSubject("")
+    setDescription("")
+    setFiles([])
+    setTicketStatus("TEST")
+  }, [])
+
   const [statusMessage, setStatusMessage] = useState("");
+
+  const [isValid, setIsValid] = useState(false);
 
   const navigator = useNavigate();
 
   useEffect(() => {
-    console.log("New status", statusMessage)
-  }, [statusMessage])
+    console.log("New status", statusMessage);
+  }, [statusMessage]);
 
-  // useEffect(() => {
-  //   // Connect to WebSocket server
-  //   const socket = io(SOCKET_ID);
-
-  //   // Listen for the 'ticket_created' event from the backend
-  //   socket.on("ticket_created", (data) => {
-  //     setTicketId(data.ticket_id);
-  //     setStatusMessage(data.message);
-  //     console.log("Ticket id:", data.ticket_id)
-  //     console.log("Message:", data.message)
-  //   });
-
-  //   // Cleanup on unmount
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  // }, []);
+  useEffect(() => {
+    console.log(category, server);
+    if (category && server) {
+      setIsValid(true);
+    }
+  }, [category, server]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Create FormData for the feedback submission
     const formData = new FormData();
-    formData.append('name', name);
-    formData.append('email', email);
-    formData.append('category', category);
-    formData.append('server', server);
-    formData.append('characterName', characterName);
-    formData.append('subject', subject);
-    formData.append('description', description);
-    
-    
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("category", category);
+    formData.append("server", server);
+    formData.append("characterName", characterName);
+    formData.append("subject", subject);
+    formData.append("description", description);
+
     for (let i = 0; i < files.length; i++) {
-        formData.append('files', files[i]);
+      formData.append("files", files[i]);
     }
 
     try {
-        const response = await fetch(SOCKET_ID + '/submit-feedback', {
-            method: 'POST',
-            body: formData,
-            mode: 'cors'
-        });
-        const result = await response.json();
-        console.log(result);
-        setTicketId(result.ticket_id);
-        setStatusMessage(result.message);
+      const response = await fetch(SOCKET_ID + "/submit-feedback", {
+        method: "POST",
+        body: formData,
+        mode: "cors",
+      });
+      const result = await response.json();
+      console.log(result);
+      setTicketNumber(result.ticket_id);
+      setStatusMessage(result.message);
     } catch (error) {
-        console.error('Error submitting feedback:', error);
+      console.error("Error submitting feedback:", error);
     }
-};
+  };
 
   return (
     <>
@@ -92,8 +107,11 @@ function App() {
       <div className="flex flex-col items-center py-2  gap-5 pb-10">
         {/* <div className="absolute bg-original w-1/2 left-1/2"></div> */}
         <NavBar />
-        <TicketConfirmation ticketId={ticketId} message={statusMessage}/>
-        <main className="flex flex-wrap items-center w-full mx-auto max-w-[1200px] bg-white rounded-xl shadow-sm p-5 gap-4">
+        <TicketConfirmation ticketId={ticketNumber} message={statusMessage} />
+        <form
+          className="flex flex-wrap items-center w-full mx-auto max-w-[1200px] bg-white rounded-xl shadow-sm p-5 gap-4"
+          onSubmit={handleSubmit}
+        >
           <div className="flex w-full">
             <label className="text-blue-900 font-semibold text-xl">
               Create Ticket
@@ -111,16 +129,20 @@ function App() {
               inputSetVariable={setEmail}
             />
 
-            <TextInput
+            <SelectInput
               labelName={"Category"}
               placeHolder={"Category"}
               inputSetVariable={setCategory}
+              options={categories}
             />
-            <TextInput
+
+            <SelectInput
               labelName={"Server"}
               placeHolder={"Server"}
               inputSetVariable={setServer}
+              options={servers}
             />
+
             <TextInput
               labelName={"Character Name"}
               placeHolder={"In-Game Character Name"}
@@ -148,18 +170,14 @@ function App() {
           </div>
           <div className="flex justify-center w-full">
             <button
-            // type="submit"
-            disabled={ticketId!== null}
+              type="submit"
+              disabled={ticketNumber !== null || !isValid}
               className="btn bg-primary hover:bg-primary/90 text-white font-semibold"
-              onClick={(e) => {
-                // navigator("/status");
-                handleSubmit(e)
-              }}
             >
               Create Ticket
             </button>
           </div>
-        </main>
+        </form>
       </div>
     </>
   );

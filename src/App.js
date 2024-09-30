@@ -38,6 +38,7 @@ function App() {
     files,
     setFiles,
     setTicketStatus,
+    setDeveloperNote
   } = useContext(TicketContext);
 
   useEffect(() => {

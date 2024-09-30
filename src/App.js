@@ -13,7 +13,8 @@ import NavBar from "./NavBar";
 import io from "socket.io-client";
 import { TicketConfirmation } from "./components/SubmitMessages";
 
-const SOCKET_ID = "https://feedback-hub-zero-backend.onrender.com";
+// const SOCKET_ID = "https://feedback-hub-zero-backend.onrender.com";
+const SOCKET_ID = process.env.REACT_APP_API_URL;
 
 function App() {
   const [name, setName] = useState("isouzd");
@@ -34,23 +35,23 @@ function App() {
     console.log("New status", statusMessage)
   }, [statusMessage])
 
-  useEffect(() => {
-    // Connect to WebSocket server
-    const socket = io(SOCKET_ID);
+  // useEffect(() => {
+  //   // Connect to WebSocket server
+  //   const socket = io(SOCKET_ID);
 
-    // Listen for the 'ticket_created' event from the backend
-    socket.on("ticket_created", (data) => {
-      setTicketId(data.ticket_id);
-      setStatusMessage(data.message);
-      console.log("Ticket id:", data.ticket_id)
-      console.log("Message:", data.message)
-    });
+  //   // Listen for the 'ticket_created' event from the backend
+  //   socket.on("ticket_created", (data) => {
+  //     setTicketId(data.ticket_id);
+  //     setStatusMessage(data.message);
+  //     console.log("Ticket id:", data.ticket_id)
+  //     console.log("Message:", data.message)
+  //   });
 
-    // Cleanup on unmount
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+  //   // Cleanup on unmount
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -78,6 +79,8 @@ function App() {
         });
         const result = await response.json();
         console.log(result);
+        setTicketId(result.ticket_id);
+        setStatusMessage(result.message);
     } catch (error) {
         console.error('Error submitting feedback:', error);
     }

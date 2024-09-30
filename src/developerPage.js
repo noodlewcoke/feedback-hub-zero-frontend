@@ -4,6 +4,7 @@ import { FeedbackItem } from "./components/DeveloperComponents";
 import NavBar from "./NavBar";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { devPageIndices } from "./entries";
+import { TicketContext } from "./contextProviders";
 
 const SOCKET_ID = process.env.REACT_APP_API_URL;
 

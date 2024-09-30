@@ -29,6 +29,7 @@ export function FeedbackItem({ ticketItems }) {
     setTicketStatus,
     developer,
     setDeveloper,
+    setDeveloperNote
   } = useContext(TicketContext);
 
   const navigator = useNavigate();
@@ -45,6 +46,7 @@ export function FeedbackItem({ ticketItems }) {
     setDescription(ticketItems.description);
     setTicketStatus(ticketItems.status);
     setDeveloper(ticketItems.developer ? ticketItems.developer : "-")
+    setDeveloperNote(ticketItems.developerNote ? ticketItems.developerNote : "")
     navigator("/process-ticket");
   };
 

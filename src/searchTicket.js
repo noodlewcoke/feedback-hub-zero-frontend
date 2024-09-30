@@ -33,6 +33,8 @@ function SearchTicket() {
     setFiles,
     ticketStatus,
     setTicketStatus,
+    developerNote,
+    setDeveloperNote
   } = useContext(TicketContext);
 
   const navigator = useNavigate();
@@ -70,6 +72,7 @@ function SearchTicket() {
       setSubject(ticketData.subject);
       setDescription(ticketData.description);
       setTicketStatus(ticketData.status);
+      setDeveloperNote(ticketData.developerNote ? ticketData.developerNote : "")
       console.log("success")
       navigator("/status")
     } catch (error) {

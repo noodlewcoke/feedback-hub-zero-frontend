@@ -61,6 +61,9 @@ function ProcessTicket() {
     if (newDeveloper !== null && newDeveloper !== developer) {
       formData.append("developer", newDeveloper);
     }
+    else {
+        formData.append("developer", developer)
+    }
     if (newStatus !== null && newStatus !== ticketStatus) {
       formData.append("status", newStatus);
     }
@@ -70,6 +73,9 @@ function ProcessTicket() {
     if (newNote !== "") {
         formData.append("developerNote", newNote);
     }
+    else {
+        formData.append("developerNote", developerNote)
+    }
 
     try {
       const response = await fetch(SOCKET_ID + "/update-feedback", {
@@ -78,12 +84,12 @@ function ProcessTicket() {
         mode: "cors",
       });
       const result = await response.json();
-      console.log(result);
+      console.log("mew", result);
       let updatedTicket = result.ticket;
       setDeveloper(updatedTicket.developer);
       setTicketStatus(updatedTicket.status);
       setDeveloperNote(updatedTicket.developerNote);
-      
+
     } catch (error) {
       console.error("Error submitting feedback:", error);
     }

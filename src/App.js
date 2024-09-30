@@ -50,7 +50,9 @@ function App() {
     setSubject("")
     setDescription("")
     setFiles([])
-    setTicketStatus("TEST")
+    setTicketStatus("")
+    setDeveloperNote("")
+
   }, [])
 
   const [statusMessage, setStatusMessage] = useState("");

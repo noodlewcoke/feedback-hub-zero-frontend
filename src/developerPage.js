@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { SplitScreenBackground } from "./components/Background";
 import { FeedbackItem } from "./components/DeveloperComponents";
 import NavBar from "./NavBar";
@@ -8,6 +8,20 @@ import { devPageIndices } from "./entries";
 const SOCKET_ID = process.env.REACT_APP_API_URL;
 
 function DeveloperPage() {
+    const {
+        setTicketNumber,
+        setName,
+        setEmail,
+        setCategory,
+        setServer,
+        setCharacterName,
+        setSubject,
+        setDescription,
+        setFiles,
+        setTicketStatus,
+        setDeveloper,
+        setDeveloperNote,
+      } = useContext(TicketContext);
   const [loading, setLoading] = useState(true);
   const [tickets, setTickets] = useState([]);
   const [selectedOption, setSelectedOption] = useState("name");
@@ -25,6 +39,18 @@ function DeveloperPage() {
         setTickets(data.tickets);
         setLoading(false);
       });
+      setTicketNumber(null)
+    setName("")
+    setEmail("")
+    setCategory(null)
+    setServer(null)
+    setCharacterName("")
+    setSubject("")
+    setDescription("")
+    setFiles([])
+    setTicketStatus("")
+    setDeveloper(null)
+    setDeveloperNote("")
   }, []);
 
   return (

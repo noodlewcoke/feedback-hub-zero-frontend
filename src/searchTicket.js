@@ -37,6 +37,8 @@ function SearchTicket() {
 
   const navigator = useNavigate();
 
+  const [invalid, setInvalid] = useState(false);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     // navigator("/status");
@@ -72,6 +74,7 @@ function SearchTicket() {
       navigator("/status")
     } catch (error) {
       console.error("Error submitting feedback:", error);
+      setInvalid(true)
     }
   };
 
@@ -106,6 +109,11 @@ function SearchTicket() {
             >
               Search
             </button>
+
+            {
+                invalid &&
+                <h1 className="text-red-700 w-full text-center">Invalid ticket or email.</h1>
+            }
           </form>
         </main>
       </div>

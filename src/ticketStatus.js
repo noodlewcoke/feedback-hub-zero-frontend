@@ -35,6 +35,10 @@ function TicketStatus() {
     setFiles,
     ticketStatus,
     setTicketStatus,
+    developer,
+    setDeveloper,
+    developerNote,
+    setDeveloperNote,
   } = useContext(TicketContext);
 
   const [showInvalid, setShowInvalid] = useState(false);
@@ -67,6 +71,15 @@ function TicketStatus() {
             <div className="w-full h-20 overflow-auto">
               <h7>{description}</h7>
             </div>
+
+            {developerNote !== "" && (
+              <>
+                <h1 className="font-semibold">Developer Note</h1>
+                <div className="w-full h-20 overflow-auto">
+                  <h7>{developerNote}</h7>
+                </div>
+              </>
+            )}
           </div>
 
           <div className="flex flex-col w-full bg-white p-3 rounded-xl shadow-2xl gap-3 py-5">

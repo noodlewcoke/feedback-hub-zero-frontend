@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import TicketStatus from "./ticketStatus";
 import SearchTicket from "./searchTicket";
 import { TicketController } from "./contextProviders";
+import DeveloperPage from "./developerPage";
+import ProcessTicket from "./processTicket";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -17,6 +19,8 @@ root.render(
           <Route path="/" element={<App />} />
           <Route path="/status" element={<TicketStatus />} />
           <Route path="/search" element={<SearchTicket />} />
+          <Route path="/developer" element={<DeveloperPage />} />
+          <Route path="/process-ticket" element={<ProcessTicket />} />
         </Routes>
       </TicketController>
     </BrowserRouter>

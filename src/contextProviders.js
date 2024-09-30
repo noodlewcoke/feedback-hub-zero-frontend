@@ -7,6 +7,7 @@ function TicketController(props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [category, setCategory] = useState(null);
+  const [developer, setDeveloper] = useState(null);
   const [server, setServer] = useState(null);
   const [characterName, setCharacterName] = useState("");
   const [subject, setSubject] = useState("");
@@ -14,6 +15,7 @@ function TicketController(props) {
   const [newDescription, setNewDescription] = useState("");
   const [files, setFiles] = useState([]);
   const [ticketStatus, setTicketStatus] = useState("");
+  const [developerNote, setDeveloperNote] = useState("");
 
   return (
     <TicketContext.Provider
@@ -40,6 +42,10 @@ function TicketController(props) {
         setFiles,
         ticketStatus,
         setTicketStatus,
+        developer,
+        setDeveloper,
+        developerNote,
+        setDeveloperNote,
       }}
     >
       {props.children}
